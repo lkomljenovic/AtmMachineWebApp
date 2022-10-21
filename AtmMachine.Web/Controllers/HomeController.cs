@@ -53,6 +53,7 @@ namespace AtmMachine.Web.Controllers
                     .Where(u => u.AccountNumber == entry.Account.AccountNumber)
                     .FirstOrDefault();
 
+                //TODO provjeriti ima li bolji nacin za otvarati view-ove
                 return View("Views\\AtmMachine\\Index.cshtml", model: user);
             }
             else
