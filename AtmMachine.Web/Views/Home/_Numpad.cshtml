@@ -1,0 +1,44 @@
+﻿@model PinEntryModel
+
+<div class="col-12">
+    <h3>Enter your PIN number using the keypad below.</h3>
+</div>
+
+<div class="container" style="border: 1px solid black; width: 50%;">
+    <form asp-action="CheckPin" asp-controller="Home" method="post">
+        <table class="table">
+            <tr>
+                <td><button type="button" class="btn btn-outline-primary" value=1 onclick="enteringPin(this);">1</button></td>
+                <td><button type="button" class="btn btn-outline-primary" value=2 onclick="enteringPin(this);">2</button></td>
+                <td><button type="button" class="btn btn-outline-primary" value=3 onclick="enteringPin(this);">3</button></td>
+                <td><button type="button" class="btn btn-outline-danger">Cancel</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" class="btn btn-outline-primary" value=4 onclick="enteringPin(this);">4</button></td>
+                <td><button type="button" class="btn btn-outline-primary" value=5 onclick="enteringPin(this);">5</button></td>
+                <td><button type="button" class="btn btn-outline-primary" value=6 onclick="enteringPin(this);">6</button></td>
+                <td><button type="button" class="btn btn-outline-warning" onclick="clearPin(this)">Clear</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" class="btn btn-outline-primary" value=7 onclick="enteringPin(this);">7</button></td>
+                <td><button type="button" class="btn btn-outline-primary" value=8 onclick="enteringPin(this);">8</button></td>
+                <td><button type="button" class="btn btn-outline-primary" value=9 onclick="enteringPin(this);">9</button></td>
+                <td><input type="submit" class="btn btn-outline-success" value="Enter"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="button" class="btn btn-outline-primary" value=0 onclick="enteringPin(this);">0</button></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="form-control">
+            <label class="form-label">PIN entry: </label>
+            <input type="password" maxlength="4" id="pinEntry" asp-for="PinEntry" readonly />
+        </div>
+        <div class="form-control" hidden>
+            <input type="text" asp-for="Account.AccountNumber" value=@Model.Account.AccountNumber />
+            <input type="text" asp-for="Account.Pin" value=@Model.Account.Pin />
+        </div>
+    </form>
+</div>

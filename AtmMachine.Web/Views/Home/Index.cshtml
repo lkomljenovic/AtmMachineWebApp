@@ -1,0 +1,81 @@
+﻿@model Account
+@{
+    ViewData["Title"] = "ATM Machine Web App";
+}
+
+<div class="row text-center">
+    <h1>Welcome to ATM Machine Web App!</h1>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-12">
+        <h3>Account validation</h3>
+    </div>
+    <div class="col-12">
+        <form asp-action="Index" asp-controller="Home">
+            <label class="form-label">Enter your account number:</label>
+            <input type="text" maxlength="10" asp-for="AccountNumber" />
+            <input class="btn btn-outline-primary form-label" type="submit" value="Validate account"/>
+        </form>
+    </div>
+    <!--
+        Ako je enteredAccountNumber valid -> prikazi Success Alert
+        Else -> prikazi Danger Alert
+    -->
+    @if(ViewBag.ValidationCode == 404)
+    {
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              @ViewBag.ValidationMessage
+            </div>
+        </div>
+    } 
+    else if(ViewBag.ValidationCode == 200)
+    {
+        <div class="col-12">
+            <div class="alert alert-success" role="alert">
+              @ViewBag.ValidationMessage
+            </div>
+        </div>
+    }
+</div>
+
+<hr />
+
+<!-- 
+    Prvo provjeriti postoji li racun u bazi podataka... 
+    Kreiranje lokalne baze podataka u MS SQL SMS: cmd admin -> komanda sqllocaldb create "name" -> u SMS-u unjeti (localdb)\"name"
+
+    Generiranje baze podataka -> Migracije -> Update
+    Komande za generiranje: 
+    U konzoli (PM) treba biti odabran DAL projekt!!
+    dotnet ef migrations add initial --startup-project AtmMachine.Web --context AtmMachineDbContext --project AtmMachine.DAL
+    dotnet ef database update mig2 --startup-project AtmMachine.Web --context AtmMachineDbContext --project AtmMachine.DAL (maknuti naziv migracije ako zelimo update-ati na zadnju verziju)
+
+    Ako je account validan -> Prikazi numpad za unos pina (PartialView?)
+-->
+@if(Model != null)
+{
+    PinEntryModel pinModel = new PinEntryModel();
+    pinModel.Account = Model;
+    <partial name="_Numpad" model="pinModel" />   
+}
+
+@section Scripts{
+    <script>
+        function enteringPin(button) {
+            var value = button.value;
+            if(document.getElementById("pinEntry").value.length < 4){
+                document.getElementById("pinEntry").value += value;
+            }
+            else{
+                console.log("Uneseni pin = " + document.getElementById("pinEntry").value);
+            }
+        }
+        function clearPin(button){
+            document.getElementById("pinEntry").value = "";
+        }
+    </script>
+}
