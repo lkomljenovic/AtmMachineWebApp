@@ -1,0 +1,46 @@
+﻿@model TransferModel
+@{
+    ViewData["Title"] = "ATM Machine - Transfer";
+}
+
+<div class="row text-center">
+    <h2>ATM Machine - Transfer</h2>
+</div>
+
+<hr />
+
+<!-- Error Message Section -->
+@if (ViewBag.TransferStatus == false)
+{
+    <div class="col-12">
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.TransferMessage
+        </div>
+    </div>
+
+    <hr />
+}
+
+<form asp-action="TransferPost">
+    <div class="form-group">
+        <label class="col-form-label">Your account number:</label>
+        <input asp-for="Sender.AccountNumber" type="text" maxlength="10" value="@Model.Sender.AccountNumber" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Your balance:</label>
+        <input asp-for="Sender.Balance" type="text" maxlength="10" value="@Model.Sender.Balance" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Enter the account number of the recepient:</label>
+        <input asp-for="Recipient" type="text" maxlength="10" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Enter the ammount you want to transfer:</label>
+        <input asp-for="Ammount" type="number" class="form-control" />
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-success">Transfer</button>
+    <a asp-action="Index"><input type="button" class="btn btn-danger" value="Cancel" /></a>
+</form>

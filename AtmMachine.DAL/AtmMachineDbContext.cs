@@ -33,8 +33,8 @@ namespace AtmMachine.DAL
                 new AccountDetails() { AccountNumber = "1234567890", Balance = (decimal) 5999.56 }
                 );
             modelBuilder.Entity<User>().HasData(
-                new User() { Id = 1, Name = "Luka", Surname = "Komljenovic", AccountNumber = "1122334455" },
-                new User() { Id = 2, Name = "New", Surname = "User", AccountNumber = "1234567890" }
+                new User() { Id = 1, Name = "Luka", Surname = "Komljenovic", Username = "lkomljenovic", AccountNumber = "1122334455" },
+                new User() { Id = 2, Name = "New", Surname = "User", Username = "nUser", AccountNumber = "1234567890" }
                 );
         }
     }

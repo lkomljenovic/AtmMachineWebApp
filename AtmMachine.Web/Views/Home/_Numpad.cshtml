@@ -1,44 +1,58 @@
 ﻿@model PinEntryModel
 
+@if(ViewBag.ValidationCode == 404 && ViewBag.OnlyPin)
+{
+    <div class="col-12">
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ValidationMessage
+        </div>
+    </div>
+} 
+
 <div class="col-12">
     <h3>Enter your PIN number using the keypad below.</h3>
 </div>
 
-<div class="container" style="border: 1px solid black; width: 50%;">
+<div class="container" style="width: 50%;">
     <form asp-action="CheckPin" asp-controller="Home" method="post">
         <table class="table">
             <tr>
-                <td><button type="button" class="btn btn-outline-primary" value=1 onclick="enteringPin(this);">1</button></td>
-                <td><button type="button" class="btn btn-outline-primary" value=2 onclick="enteringPin(this);">2</button></td>
-                <td><button type="button" class="btn btn-outline-primary" value=3 onclick="enteringPin(this);">3</button></td>
-                <td><button type="button" class="btn btn-outline-danger">Cancel</button></td>
+                <td><button type="button" class="btn btn-primary" value=1 onclick="enteringPin(this);">1</button></td>
+                <td><button type="button" class="btn btn-primary" value=2 onclick="enteringPin(this);">2</button></td>
+                <td><button type="button" class="btn btn-primary" value=3 onclick="enteringPin(this);">3</button></td>
+                <td><a asp-action="Index"><input type="button" class="btn btn-danger" value="Cancel" /></a></td>
+                <!--<td><button type="button" class="btn btn-danger">Cancel<i class="fa-solid fa-xmark" style="padding-left: 5px;"></i></button></td>-->
             </tr>
             <tr>
-                <td><button type="button" class="btn btn-outline-primary" value=4 onclick="enteringPin(this);">4</button></td>
-                <td><button type="button" class="btn btn-outline-primary" value=5 onclick="enteringPin(this);">5</button></td>
-                <td><button type="button" class="btn btn-outline-primary" value=6 onclick="enteringPin(this);">6</button></td>
-                <td><button type="button" class="btn btn-outline-warning" onclick="clearPin(this)">Clear</button></td>
+                <td><button type="button" class="btn btn-primary" value=4 onclick="enteringPin(this);">4</button></td>
+                <td><button type="button" class="btn btn-primary" value=5 onclick="enteringPin(this);">5</button></td>
+                <td><button type="button" class="btn btn-primary" value=6 onclick="enteringPin(this);">6</button></td>
+                <td><button type="button" class="btn btn-warning" onclick="clearPin(this)">Clear<i class="fa-solid fa-arrow-left" style="padding-left: 5px;"></i></button></td>
             </tr>
             <tr>
-                <td><button type="button" class="btn btn-outline-primary" value=7 onclick="enteringPin(this);">7</button></td>
-                <td><button type="button" class="btn btn-outline-primary" value=8 onclick="enteringPin(this);">8</button></td>
-                <td><button type="button" class="btn btn-outline-primary" value=9 onclick="enteringPin(this);">9</button></td>
-                <td><input type="submit" class="btn btn-outline-success" value="Enter"/></td>
+                <td><button type="button" class="btn btn-primary" value=7 onclick="enteringPin(this);">7</button></td>
+                <td><button type="button" class="btn btn-primary" value=8 onclick="enteringPin(this);">8</button></td>
+                <td><button type="button" class="btn btn-primary" value=9 onclick="enteringPin(this);">9</button></td>
+                <td><button type="submit" class="btn btn-success">Enter<i class="fa-regular fa-circle" style="padding-left: 5px;"></i></button></td>
             </tr>
             <tr>
                 <td></td>
-                <td><button type="button" class="btn btn-outline-primary" value=0 onclick="enteringPin(this);">0</button></td>
+                <td><button type="button" class="btn btn-primary" value=0 onclick="enteringPin(this);">0</button></td>
                 <td></td>
                 <td></td>
             </tr>
         </table>
-        <div class="form-control">
-            <label class="form-label">PIN entry: </label>
-            <input type="password" maxlength="4" id="pinEntry" asp-for="PinEntry" readonly />
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">Entered account number: </label>
+            <div class="col-sm-8">
+                <input type="text" asp-for="Account.AccountNumber" value=@Model.Account.AccountNumber class="form-control" readonly />
+            </div>
         </div>
-        <div class="form-control" hidden>
-            <input type="text" asp-for="Account.AccountNumber" value=@Model.Account.AccountNumber />
-            <input type="text" asp-for="Account.Pin" value=@Model.Account.Pin />
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">PIN entry: </label>
+            <div class="col-sm-8">
+                <input type="password" maxlength="4" id="pinEntry" asp-for="PinEntry" class="form-control" readonly />
+            </div>
         </div>
     </form>
 </div>

@@ -15,13 +15,14 @@ namespace AtmMachine.Web.Controllers
         {
             this._dbContext = dbContext;
         }
+
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(Account entry)
+        public IActionResult AccountVerification(Account entry)
         {
             var validatedAccount = _dbContext.Accounts
                 .Where(a => a.AccountNumber == entry.AccountNumber)
@@ -31,16 +32,19 @@ namespace AtmMachine.Web.Controllers
             {
                 ViewBag.ValidationMessage = $"Successfull validation of entered account number ({entry.AccountNumber})!";
                 ViewBag.ValidationCode = 200;
+                ViewBag.OnlyPin = false;
             }
             else
             {
                 ViewBag.ValidationMessage = $"Entered account number ({entry.AccountNumber}) does not exist in the database!";
                 ViewBag.ValidationCode = 404;
+                ViewBag.OnlyPin = false;
             }
-            return View(model: validatedAccount);
+            return View("Index", model: validatedAccount);
         }
 
-        [HttpPost]
+        [Route("CheckPin")]
+        [HttpPost("CheckPin")]
         public ActionResult CheckPin(PinEntryModel entry)
         {
             var validatedAccount = _dbContext.Accounts
@@ -49,18 +53,18 @@ namespace AtmMachine.Web.Controllers
 
             if(validatedAccount != null)
             {
-                var user = _dbContext.Users
-                    .Where(u => u.AccountNumber == entry.Account.AccountNumber)
-                    .FirstOrDefault();
-
-                //TODO provjeriti ima li bolji nacin za otvarati view-ove
-                return View("Views\\AtmMachine\\Index.cshtml", model: user);
+                var account = validatedAccount.AccountNumber;
+                return RedirectToAction("Index", "AtmMachine", validatedAccount);
             }
             else
             {
                 var account = _dbContext.Accounts
                     .Where(a => a.AccountNumber == entry.Account.AccountNumber)
                     .FirstOrDefault();
+
+                ViewBag.ValidationMessage = $"Entered PIN number ({entry.PinEntry}) is incorrect!";
+                ViewBag.ValidationCode = 404;
+                ViewBag.OnlyPin = true;
 
                 return View("Index", model: account);
             }

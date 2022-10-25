@@ -9,37 +9,43 @@
 
 <hr />
 
+@if (ViewBag.ValidationCode == 404 && ViewBag.OnlyPin == false)
+{
+    <div class="col-12">
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ValidationMessage
+        </div>
+    </div>
+
+    <hr />
+}
+else if (ViewBag.ValidationCode == 200 && ViewBag.OnlyPin == false)
+{
+    <div class="col-12">
+        <div class="alert alert-success" role="alert">
+            @ViewBag.ValidationMessage
+        </div>
+    </div>
+
+    <hr />
+}
+
 <div class="row">
     <div class="col-12">
         <h3>Account validation</h3>
     </div>
     <div class="col-12">
-        <form asp-action="Index" asp-controller="Home">
-            <label class="form-label">Enter your account number:</label>
-            <input type="text" maxlength="10" asp-for="AccountNumber" />
-            <input class="btn btn-outline-primary form-label" type="submit" value="Validate account"/>
+        <form asp-action="AccountVerification" asp-controller="Home">
+            <div class="form-group">
+                <label class="col-form-label">Enter your account number:</label>
+                <input type="text" maxlength="10" asp-for="AccountNumber" class="form-control" aria-describedby="accountNumberHelp" />
+                <small id="accountNumberHelp" class="form-text text-muted">Account number consists of 10 digits.</small>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="Validate account" />
+            </div>
         </form>
     </div>
-    <!--
-        Ako je enteredAccountNumber valid -> prikazi Success Alert
-        Else -> prikazi Danger Alert
-    -->
-    @if(ViewBag.ValidationCode == 404)
-    {
-        <div class="col-12">
-            <div class="alert alert-danger" role="alert">
-              @ViewBag.ValidationMessage
-            </div>
-        </div>
-    } 
-    else if(ViewBag.ValidationCode == 200)
-    {
-        <div class="col-12">
-            <div class="alert alert-success" role="alert">
-              @ViewBag.ValidationMessage
-            </div>
-        </div>
-    }
 </div>
 
 <hr />
@@ -56,6 +62,7 @@
 
     Ako je account validan -> Prikazi numpad za unos pina (PartialView?)
 -->
+
 @if(Model != null)
 {
     PinEntryModel pinModel = new PinEntryModel();
@@ -69,9 +76,6 @@
             var value = button.value;
             if(document.getElementById("pinEntry").value.length < 4){
                 document.getElementById("pinEntry").value += value;
-            }
-            else{
-                console.log("Uneseni pin = " + document.getElementById("pinEntry").value);
             }
         }
         function clearPin(button){

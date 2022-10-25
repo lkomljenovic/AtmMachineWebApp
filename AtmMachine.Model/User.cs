@@ -14,6 +14,7 @@ namespace AtmMachine.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public string Username { get; set; }
 
         [ForeignKey(nameof(AccountNumber))]
         public string AccountNumber { get; set; }

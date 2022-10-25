@@ -1,11 +1,56 @@
 ﻿@model User
 @{
-    ViewData["Title"] = "ATM Machine Web App";
+    ViewData["Title"] = "ATM Machine - Actions";
 }
 
 <div class="row text-center">
-    <h1>Hello @Model.Name @Model.Surname!</h1>
+    @if (Model != null)
+    {
+        <h1>Hello @Model.Name @Model.Surname!</h1>
+    }
     <h2>You successfully logged into your account!</h2>
+    <hr />
+</div>
+
+@if (ViewBag.TransferStatus == true)
+{
+    <div class="col-12">
+        <div class="alert alert-success" role="alert">
+            @ViewBag.TransferMessage
+        </div>
+    </div>
+
+    <hr />
+}
+
+@if (ViewBag.WithdrawalStatus == true)
+{
+    <div class="col-12">
+        <div class="alert alert-success" role="alert">
+            @ViewBag.WithdrawalMessage
+        </div>
+    </div>
+
+    <hr />
+}
+
+<div class="col-12">
+    <h3>Select an action:</h3>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <a asp-action="Balance" asp-route-account="@Model.AccountNumber"><input type="button" value="Balance" class="btn btn-primary" /></a>
+    </div>
+    <div class="col-3">
+        <a asp-action="Transfer" asp-route-account="@Model.AccountNumber"><input type="button" value="Transfer" class="btn btn-primary" /></a>
+    </div>
+    <div class="col-3">
+        <a asp-action="Deposit" asp-route-account="@Model.AccountNumber"><input type="button" value="Deposit" class="btn btn-primary" /></a>
+    </div>
+    <div class="col-3">
+        <a asp-action="Withdrawal" asp-route-account="@Model.AccountNumber"><input type="button" value="Withdrawal" class="btn btn-primary" /></a>
+    </div>
 </div>
 
 <hr />
