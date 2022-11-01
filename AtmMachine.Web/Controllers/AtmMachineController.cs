@@ -19,7 +19,6 @@ namespace AtmMachine.Web.Controllers
         [Route("Actions")]
         public IActionResult Index(Account account)
         {
-            // Method parameter is validated accountNumber.
             var user = _dbContext.Users
                 .Where(u => u.AccountNumber == account.AccountNumber)
                 .FirstOrDefault();
@@ -52,7 +51,6 @@ namespace AtmMachine.Web.Controllers
         [HttpPost("TransferPost")]
         public async Task<IActionResult> TransferPost(TransferModel transfer)
         {
-            //Validate recipient account and ammount
             var okToSendMoney = false;
 
             var senderAccountDetails = _dbContext.AccountDetails
@@ -83,7 +81,6 @@ namespace AtmMachine.Web.Controllers
 
             if (okToSendMoney)
             {
-                //Transfer ammount to account number
                 var user = _dbContext.Users
                     .Where(u => u.AccountNumber == transfer.Sender.AccountNumber)
                     .FirstOrDefault();
@@ -110,7 +107,6 @@ namespace AtmMachine.Web.Controllers
             }
             else
             {
-                //Show error message to user
                 return View("Transfer", model: transfer);
             }
         }
@@ -134,6 +130,7 @@ namespace AtmMachine.Web.Controllers
             var accountDetails = _dbContext.AccountDetails
                 .Where(a => a.AccountNumber == deposit.AccountNumber)
                 .FirstOrDefault();
+            ViewBag.DepositStatus = true;
 
             accountDetails.Balance += deposit.Ammount;
 
@@ -142,12 +139,14 @@ namespace AtmMachine.Web.Controllers
             if (ok)
             {
                 _dbContext.SaveChanges();
+                ViewBag.DepositStatus = true;
             }
 
             var user = _dbContext.Users
                 .Where(u => u.AccountNumber == deposit.AccountNumber)
                 .FirstOrDefault();
-            //TODO Proslijediti poruku da je DEPOSIT obavljen?
+
+            ViewBag.DepositMessage = $"Sucessfully deposited {deposit.Ammount} HRK!";
 
             return View("Index", model: user);
         }

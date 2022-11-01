@@ -10,6 +10,7 @@ namespace AtmMachine.DAL
 {
     public class AtmMachineDbContext : DbContext
     {
+
         public AtmMachineDbContext(DbContextOptions<AtmMachineDbContext> options) 
             : base(options)
         {
@@ -19,7 +20,7 @@ namespace AtmMachine.DAL
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountDetails> AccountDetails { get; set; }
         public DbSet<User> Users { get; set; }
-
+        //error sa dodavanjem postgresql (nvarchar does not exist) -> obrisati sve migracije i napraviti ponovno inicijalnu
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

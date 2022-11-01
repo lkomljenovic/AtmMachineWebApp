@@ -43,8 +43,7 @@ namespace AtmMachine.Web.Controllers
             return View("Index", model: validatedAccount);
         }
 
-        [Route("CheckPin")]
-        [HttpPost("CheckPin")]
+        [HttpPost]
         public ActionResult CheckPin(PinEntryModel entry)
         {
             var validatedAccount = _dbContext.Accounts
@@ -62,7 +61,7 @@ namespace AtmMachine.Web.Controllers
                     .Where(a => a.AccountNumber == entry.Account.AccountNumber)
                     .FirstOrDefault();
 
-                ViewBag.ValidationMessage = $"Entered PIN number ({entry.PinEntry}) is incorrect!";
+                ViewBag.ValidationMessage = $"Entered PIN number is incorrect!";
                 ViewBag.ValidationCode = 404;
                 ViewBag.OnlyPin = true;
 

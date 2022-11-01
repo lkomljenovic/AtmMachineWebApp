@@ -9,8 +9,11 @@ builder.Services.AddControllersWithViews();
 
 // Dodavanje dbContext-a u .NET Core 6
 builder.Services.AddDbContext<AtmMachineDbContext>(options =>
-    options.UseSqlServer(
+    options.UseNpgsql(
         builder.Configuration.GetConnectionString("AtmMachineDbContext")));
+    // Commented out old database
+    //options.UseSqlServer(
+    //    builder.Configuration.GetConnectionString("AtmMachineDbContext")));
 
 var app = builder.Build();
 
