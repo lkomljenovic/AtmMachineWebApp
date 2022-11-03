@@ -41,5 +41,5 @@
     <hr />
 
     <button type="submit" class="btn btn-success">Transfer</button>
-    <a asp-action="Index"><input type="button" class="btn btn-danger" value="Cancel" /></a>
+    <a asp-action="ReturnToIndex" asp-route-account="@Model.Sender.AccountNumber"><input type="button" class="btn btn-danger" value="Cancel" /></a>
 </form>

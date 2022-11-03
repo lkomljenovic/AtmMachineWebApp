@@ -25,6 +25,16 @@ namespace AtmMachine.Web.Controllers
 
             return View(model: user);
         }
+
+        public IActionResult ReturnToIndex(string account)
+        {
+            var user = _dbContext.Users
+                .Where(u => u.AccountNumber == account)
+                .FirstOrDefault();
+
+            return View("Index",model: user);
+        }
+
         [Route("Balance")]
         public IActionResult Balance(string account)
         {
